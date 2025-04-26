@@ -1,4 +1,4 @@
-🛡️ Azure Key Vault BEK Unwrapper
+# 🛡️Azure Key Vault BEK Unwrapper
 
 This PowerShell script retrieves 🔎 wrapped BitLocker Encryption Keys (BEKs) from an Azure Key Vault, unwraps 🔓 them using their associated Key Encryption Keys (KEKs), and saves 📀 the decrypted BEKs to a local directory.
 
