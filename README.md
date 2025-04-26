@@ -1,99 +1,124 @@
-# Azure Key Vault BEK Unwrapper
+🛡️ Azure Key Vault BEK Unwrapper
 
-This PowerShell script retrieves **wrapped BitLocker Encryption Keys (BEKs)** from an **Azure Key Vault**, **unwraps** them using their associated **Key Encryption Keys (KEKs)**, and **saves** the decrypted BEKs to a local directory.
+This PowerShell script retrieves 🔎 wrapped BitLocker Encryption Keys (BEKs) from an Azure Key Vault, unwraps 🔓 them using their associated Key Encryption Keys (KEKs), and saves 📀 the decrypted BEKs to a local directory.
 
-> **Author:** Didier Van Hoye - [WorkingHardInIT](https://workinghardinit.work)  
-> **Date:** 2023-10-03
+Author: Didier Van Hoye - WorkingHardInITDate: 2025-04-26
 
----
+📚 Table of Contents
 
-## Overview
+✨ Overview
+
+🛠️ Prerequisites
+
+🚀 Usage
+
+📌 Important Notes
+
+🧪 Example
+
+📄 License
+
+✨ Overview
 
 The script follows a structured process:
 
-1. **Retrieve** all wrapped BEKs (secrets) in the specified Azure Key Vault that match a GUID format and have the `ContentType` of "Wrapped BEK".
-2. **Identify** the correct KEK (Azure Key Vault key) associated with each BEK, based on the `MachineName` tag.
-3. **Prepare** the Base64 string for decoding and handle padding if necessary.
-4. **Unwrap** the BEK using the KEK with the `RSA-OAEP` algorithm.
-5. **Save** the unwrapped BEK as a `.bek` file to the specified local directory.
+Retrieve 📥 all wrapped BEKs (secrets) in the specified Azure Key Vault matching a GUID format and with ContentType of "Wrapped BEK".
 
-All steps include error handling. If an error occurs while processing a BEK, the script will log the error and continue processing the next BEK without terminating.  
-The console will **remain open** after execution (no forced exit), allowing you to review the output.
+Identify 🧬 the correct KEK (Azure Key Vault key) for each BEK based on the MachineName tag.
 
----
+Prepare 🛠️ the Base64 string for decoding and handle any necessary padding.
 
-## Prerequisites
+Unwrap 🔓 the BEK using the KEK and the RSA-OAEP algorithm.
 
-- **Azure PowerShell Modules**:
-  - `Az.Accounts`
-  - `Az.KeyVault`
-- **Permissions** required for the executing user or service principal:
-  - **Secrets**:
-    - `Get`
-    - `List`
-  - **Keys**:
-    - `Get`
-    - `Unwrap Key`
-    - `List`
-- **Operating System**:
-  - Windows, Linux, or macOS with PowerShell 5.1 or PowerShell 7+
-- **Authentication**:
-  - Ensure you are authenticated to the correct Azure subscription using `Connect-AzAccount`.
-  - The executing identity must have the necessary Azure Key Vault access rights (either via Key Vault Access Policies or Azure RBAC).
+Save 📀 the unwrapped BEK as a .bek file to your specified output directory.
 
----
+All steps include error handling ⚠️.
+If an error occurs during BEK processing, the script logs the error 📋 and continues with the next BEK — no premature termination!
+The console will remain open after execution for you to review the results 📜.
 
-## Usage
+🛠️ Prerequisites
 
-1. **Set the required variables** at the top of the script:
-    ```powershell
-    $keyVaultName = "<Your-KeyVault-Name>"
-    $UnwrappedBekPath = "C:\Temp" # Directory where decrypted BEKs will be saved
-    ```
+Azure PowerShell Modules 🛆:
 
-2. **Run the script** in a PowerShell session:
-    ```powershell
-    .\Unwrap-AzKeyVaultBEKs.ps1
-    ```
+Az.Accounts
 
-3. **Review the console output**.  
-   Unwrapped BEKs will be saved with filenames based on:
-   - Volume letter
-   - Volume label
-   - Machine name
-   - Secret GUID
-   - Timestamp
+Az.KeyVault
 
-   Example filename:
-   ```
-   C:\Temp\C-DATA-SRV01-Unwrapped-0e9a83c1-b7ea-45a4-9e97-3b8cfb60af8a-20250426110500.bek
-   ```
+Permissions 🔐 for the executing user or service principal:
 
----
+Secrets:
 
-## Important Notes
+Get
 
-- **Key Vault Access**:  
-  Make sure your identity has permissions to both secrets and keys. Otherwise, the script will fail to retrieve or unwrap the BEKs.
+List
 
-- **Error Handling**:  
-  If an error occurs when processing a specific BEK, the script logs the error and moves on to the next BEK without terminating.
+Keys:
 
-- **Console Behavior**:  
-  The script never forcefully closes or exits the PowerShell console. This allows for review of all output and error messages after execution.
+Get
 
-- **Output**:  
-  Decrypted BEKs are written to the specified output directory with unique filenames to prevent overwriting.
+Unwrap Key
 
-- **Security Consideration**:  
-  Always secure the output folder where the unwrapped BEKs are stored. These files are sensitive.
+List
 
----
+Operating System 🖥️:
 
-## Example
+Windows, Linux, or macOS with PowerShell 5.1+ or 7+
 
-Example execution:
-```powershell
+Authentication ✅:
+
+Ensure you're logged into Azure with Connect-AzAccount.
+
+Confirm your identity has the necessary Key Vault access rights (Access Policies or Azure RBAC).
+
+🚀 Usage
+
+Set the required variables 📝 at the top of the script:
+
+$keyVaultName = "<Your-KeyVault-Name>"
+$UnwrappedBekPath = "C:\Temp" # Directory where decrypted BEKs will be saved
+
+Run the script ▶️ in a PowerShell session:
+
+.\Unwrap-AzKeyVaultBEKs.ps1
+
+Review the console output 👀.
+Unwrapped BEKs will be saved using filenames that include:
+
+Volume letter
+
+Volume label
+
+Machine name
+
+Secret GUID
+
+Timestamp
+
+Example:
+
+C:\Temp\C-DATA-SRV01-Unwrapped-0e9a83c1-b7ea-45a4-9e97-3b8cfb60af8a-20250426110500.bek
+
+📌 Important Notes
+
+Key Vault Access 🔑:
+Your identity must have permissions to secrets and keys — otherwise the script cannot retrieve or unwrap BEKs.
+
+Error Handling ⚠️:
+If an error occurs when processing a BEK, it will be logged 📋, and processing will continue with the next item.
+
+Console Behavior 🖥️:
+The script never closes the PowerShell session automatically — so you can review all output/errors after execution.
+
+Output Files 📀:
+Decrypted BEKs are saved with unique filenames to avoid overwriting previous results.
+
+Security Considerations 🔒:
+Secure your output folder! BEKs are sensitive data and must be protected appropriately.
+
+🧪 Example
+
+Example output:
+
 Step 0: Initializing variables and retrieving wrapped BEKs...
 Processing BEK: 0e9a83c1-b7ea-45a4-9e97-3b8cfb60af8a
 Step 1.1: Retrieving wrapped BEK from Key Vault...
@@ -102,13 +127,10 @@ Matched KEK: C-DATA-SRV01-KEK
 Step 2: Preparing Base64 string for decoding...
 Step 3: Unwrapping BEK using KEK...
 Step 4: Saving unwrapped BEK to file...
-Successfully unwrapped and saved BEK to: C:\Temp\C-DATA-SRV01-Unwrapped-0e9a83c1-b7ea-45a4-9e97-3b8cfb60af8a-20250426110500.bek
+✅ Successfully unwrapped and saved BEK to: C:\Temp\C-DATA-SRV01-Unwrapped-0e9a83c1-b7ea-45a4-9e97-3b8cfb60af8a-20250426110500.bek
 
-All BEKs processing completed.
-```
+🎉 All BEKs processing completed.
 
----
+📄 License
 
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License — see the LICENSE file for full details.
