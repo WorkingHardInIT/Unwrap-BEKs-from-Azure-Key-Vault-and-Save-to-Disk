@@ -2,6 +2,8 @@
 # Author: Didier Van Hoye - WorkingHardInIT
 # Date: 2025-04-26
 # Purpose: Retrieve wrapped BEKs from Key Vault, unwrap using KEK, and save decrypted BEK files locally.
+# Written to recover Azure VMs either in Azure or on-premises, and be able to decrypt the BitLocker-encrypted disk.
+
 
 # Step 0: Set variables
 $ErrorActionPreference = "Stop"  # Force all errors to throw exceptions
