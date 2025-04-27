@@ -1,4 +1,4 @@
-# Script: Unwrap and/or Save BEKs from Azure Key Vault and save them to disk
+# Script: Unwrap and/or save BEKs from Azure Key Vault and save them to disk
 # Author: Didier Van Hoye - WorkingHardInIT (Enhanced by ChatGPT)
 # Date: 2025-04-26
 # Purpose: Retrieve wrapped BEKs and plain BEKs from Key Vault, unwrap if needed, and save locally.
@@ -45,7 +45,8 @@ foreach ($bekSecret in $beks) {
         # Determine processing based on ContentType
         if ($ContentType -eq "Wrapped BEK") {
             Write-Host "INFO: Detected Wrapped BEK. Unwrapping required..." -ForegroundColor Cyan
-
+            
+            #Step 1..1: Decode the Base64 string to get the wrapped BEK bytes
             $Base64String = $bek.SecretValue | ConvertFrom-SecureString -AsPlainText
 
             # Step 1.2: Identify the correct KEK by matching the machine name
